@@ -1,1 +1,1 @@
-export { Calculator } from './Calculator';
+export { EventDispatcher } from './EventDispatcher';
