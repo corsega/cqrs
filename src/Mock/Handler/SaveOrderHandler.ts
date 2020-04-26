@@ -3,9 +3,19 @@ import OrderPizza from '../Event/OrderPizza';
 import OrderSaved from '../Event/OrderSaved';
 
 export default class SaveOrderHandler {
-  public async handle(event: OrderPizza, context: Context) {
-    const response = await context.dispatch(new OrderSaved(event.pizza));
+  public async handle(event: OrderPizza, { dispatch }: Context) {
+    // persist order
+    const order = {
+      id: 'order-id',
+      ...event,
+    };
 
-    return 'Save the order: ' + JSON.stringify(response);
+    // we can dispatch another event within this handler
+    // which will trigger other event handlers
+    await dispatch(new OrderSaved(order));
+
+    return {
+      order,
+    };
   }
 }

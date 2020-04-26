@@ -1,3 +1,3 @@
-export default class EventDispatcherResponse<Response> {
-  [eventClassName: string]: Response;
+export default class EventDispatcherResponse {
+  [eventClassName: string]: any;
 }

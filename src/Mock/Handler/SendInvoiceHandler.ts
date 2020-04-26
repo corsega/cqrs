@@ -1,7 +1,12 @@
 import OrderPizza from '../Event/OrderPizza';
 
-export default class SendInvoice {
+export default class SendInvoiceHandler {
   public handle(event: OrderPizza) {
-    return 'Send invoice ';
+    return {
+      invoice: {
+        id: 'invoice-id',
+        ...event,
+      },
+    };
   }
 }

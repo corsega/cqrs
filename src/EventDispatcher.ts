@@ -1,11 +1,10 @@
 import Context from './Context';
+import EventDispatcherOptions from './EventDispatcherOptions';
 import EventDispatcherResponse from './EventDispatcherResponse';
-import EventHandlerResponse from './EventHandlerResponse';
 import IEvent from './IEvent';
 import IEventHandler from './IEventHandler';
 import IEventHandlerMap from './IEventHandlerMap';
 import Reflection from './Reflection';
-import EventDispatcherOptions from './EventDispatcherOptions';
 
 const reflection = new Reflection();
 
@@ -15,8 +14,8 @@ export class EventDispatcher {
     private options: EventDispatcherOptions = new EventDispatcherOptions(),
   ) {}
 
-  public async dispatch(event: IEvent): Promise<EventDispatcherResponse<EventHandlerResponse>> {
-    const response = this.newResponse();
+  public async dispatch(event: IEvent, responseClass: typeof EventDispatcherResponse = EventDispatcherResponse) {
+    const response = new responseClass();
 
     const eventMap = this.findEventMap(event);
 
@@ -26,9 +25,7 @@ export class EventDispatcher {
 
     for (const key in eventMap.handlers) {
       if (eventMap.handlers[key]) {
-        response[reflection.getClassName(eventMap.handlers[key])] = this.newHandlerResponse(
-          await this.handle(event, eventMap.handlers[key]),
-        );
+        response[reflection.getClassName(eventMap.handlers[key])] = await this.handle(event, eventMap.handlers[key]);
       }
     }
 
@@ -38,14 +35,6 @@ export class EventDispatcher {
   protected handle = (event: IEvent, handler: IEventHandler) => {
     return handler.handle(event, this.getContext());
   };
-
-  protected newResponse(): EventDispatcherResponse<EventHandlerResponse> {
-    return new EventDispatcherResponse();
-  }
-
-  protected newHandlerResponse(data: any) {
-    return new EventHandlerResponse(data);
-  }
 
   private getContext(): Context {
     return this.options.context().setDispatcher(this);

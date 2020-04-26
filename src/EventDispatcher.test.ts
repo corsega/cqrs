@@ -1,8 +1,9 @@
 import EventDispatcherResponse from './EventDispatcherResponse';
 import OrderPizza from './Mock/Event/OrderPizza';
+import OrderSaved from './Mock/Event/OrderSaved';
 import UnregisteredEvent from './Mock/Event/UnregisteredEvent';
 import pizzaDispatcher from './Mock/pizzaDispatcher';
-import EventHandlerResponse from './EventHandlerResponse';
+import VeggiePizza from './Mock/VeggiePizza';
 
 describe('EventDispatcher', () => {
   it('Dispatches a registered event', async () => {
@@ -14,7 +15,13 @@ describe('EventDispatcher', () => {
 
     expect(response).toBeInstanceOf(EventDispatcherResponse);
 
-    expect(response.SaveOrderHandler).toBeInstanceOf(EventHandlerResponse);
+    expect(response.SaveOrderHandler.order.id).toBe('order-id');
+
+    expect(response.NotifyCustomerHandler.notification.id).toBe('notification-id');
+
+    const response2 = await pizzaDispatcher.dispatch(new OrderSaved(new VeggiePizza()));
+
+    expect(response2.SendInvoiceHandler.invoice.id).toBe('invoice-id');
   });
 
   it('Dispatches an unregistered event', async () => {

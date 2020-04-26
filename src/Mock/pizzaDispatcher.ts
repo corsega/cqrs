@@ -3,7 +3,7 @@ import OrderPizza from './Event/OrderPizza';
 import OrderSaved from './Event/OrderSaved';
 import NotifyCustomerHandler from './Handler/NotifyCustomerHandler';
 import SaveOrderHandler from './Handler/SaveOrderHandler';
-import SendInvoice from './Handler/SendInvoiceHandler';
+import SendInvoiceHandler from './Handler/SendInvoiceHandler';
 
 class PizzaDispatcher extends EventDispatcher {}
 
@@ -14,6 +14,6 @@ export default new PizzaDispatcher([
   },
   {
     event: OrderSaved,
-    handlers: [new SendInvoice()],
+    handlers: [new SendInvoiceHandler()],
   },
 ]);
