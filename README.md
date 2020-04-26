@@ -26,7 +26,7 @@ class SaveOrderHandler {
 }
 ```
 
-Register the event handlers.
+Register event handlers.
 
 ```ts
 const eventHandlerMap = [
@@ -42,7 +42,7 @@ const eventHandlerMap = [
 const dispatcher = new EventDispatcher(eventHandlerMap);
 ```
 
-Dispatch the event
+Dispatch an event.
 
 ```ts
 const orderPizza = new OrderPizza({
@@ -55,7 +55,7 @@ const orderPizza = new OrderPizza({
 
 const response = await dispatcher.dispatch(orderPizza);
 
-// response will contain multiple response from each handler
+// response will contain multiple responses from each handler
 // indexed by each handler name
 const orderId = response.SaveOrderHandler.order.id;
 ```

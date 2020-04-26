@@ -1,16 +1,18 @@
-import Pizza from './Mock/Pizza';
-import VeggiePizza from './Mock/VeggiePizza';
+import Pizza from './mock/Pizza';
+import VeggiePizza from './mock/VeggiePizza';
 import Reflection from './Reflection';
 
 describe('Reflection', () => {
   const reflection = new Reflection();
 
-  it('Gets an instance class name', () => {
-    const name = reflection.getClassName(
-      new Pizza({
-        ingredients: ['Salsa_Alfredo'],
-      }),
-    );
+  it('Gets an class name from instance', () => {
+    const name = reflection.getClassName(new Pizza({ ingredients: [] }));
+
+    expect(name).toBe('Pizza');
+  });
+
+  it('Gets a class name from class', () => {
+    const name = reflection.getClassName(Pizza);
 
     expect(name).toBe('Pizza');
   });
@@ -25,9 +27,7 @@ describe('Reflection', () => {
     expect(name).toBe('VeggiePizzaWithTomatoesPeppersOnions');
   });
 
-  it('Checks if to classes have the same name', () => {
-    const isEqual = reflection.hasSameClassName(new Pizza(), new Pizza());
-
-    expect(isEqual).toBe(true);
+  it('Checks if two classes have the same name', () => {
+    expect(reflection.hasSameClassName(new Pizza(), new Pizza())).toBe(true);
   });
 });

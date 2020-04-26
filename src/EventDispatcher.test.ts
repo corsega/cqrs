@@ -4,6 +4,7 @@ import OrderSaved from './Mock/Event/OrderSaved';
 import UnregisteredEvent from './Mock/Event/UnregisteredEvent';
 import pizzaDispatcher from './Mock/pizzaDispatcher';
 import VeggiePizza from './Mock/VeggiePizza';
+import InvalidOrder from './Mock/Event/InvalidOrder';
 
 describe('EventDispatcher', () => {
   it('Dispatches a registered event', async () => {
@@ -28,5 +29,9 @@ describe('EventDispatcher', () => {
     const response = await pizzaDispatcher.dispatch(new UnregisteredEvent());
 
     expect(response).toBeInstanceOf(EventDispatcherResponse);
+  });
+
+  it('Throws handler error', async () => {
+    expect(pizzaDispatcher.dispatch(new InvalidOrder())).rejects.toThrowError();
   });
 });
