@@ -55,8 +55,12 @@ const orderPizza = new OrderPizza({
 
 const response = await dispatcher.dispatch(orderPizza);
 
-const orderId = response.order.id;
+// response will contain multiple response from each handler
+// indexed by each handler name
+const orderId = response.SaveOrderHandler.order.id;
 ```
+
+See `src/EventDispatcher.test.ts` for a more detailed example.
 
 -------
 
