@@ -1,4 +1,4 @@
-import OrderPizza from '../Event/OrderPizza';
+import OrderPizza from '../event/OrderPizza';
 
 export default class NotifyCustomerHandler {
   public handle(event: OrderPizza) {

@@ -1,6 +1,6 @@
 import Context from '../../Context';
-import OrderPizza from '../Event/OrderPizza';
-import OrderSaved from '../Event/OrderSaved';
+import OrderPizza from '../event/OrderPizza';
+import OrderSaved from '../event/OrderSaved';
 
 export default class SaveOrderHandler {
   public async handle(event: OrderPizza, { dispatch }: Context) {

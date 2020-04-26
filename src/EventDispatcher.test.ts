@@ -1,10 +1,10 @@
 import EventDispatcherResponse from './EventDispatcherResponse';
-import OrderPizza from './Mock/Event/OrderPizza';
-import OrderSaved from './Mock/Event/OrderSaved';
-import UnregisteredEvent from './Mock/Event/UnregisteredEvent';
-import pizzaDispatcher from './Mock/pizzaDispatcher';
-import VeggiePizza from './Mock/VeggiePizza';
-import InvalidOrder from './Mock/Event/InvalidOrder';
+import OrderPizza from './mock/event/OrderPizza';
+import OrderSaved from './mock/event/OrderSaved';
+import UnregisteredEvent from './mock/event/UnregisteredEvent';
+import pizzaDispatcher from './mock/pizzaDispatcher';
+import VeggiePizza from './mock/VeggiePizza';
+import InvalidOrder from './mock/event/InvalidOrder';
 
 describe('EventDispatcher', () => {
   it('Dispatches a registered event', async () => {
