@@ -1,15 +1,15 @@
 import EventDispatcher from '../EventDispatcher';
-import OrderPizza from './Event/OrderPizza';
-import OrderSaved from './Event/OrderSaved';
-import NotifyCustomerHandler from './Handler/NotifyCustomerHandler';
-import SaveOrderHandler from './Handler/SaveOrderHandler';
-import SendInvoiceHandler from './Handler/SendInvoiceHandler';
+import OrderPizza from './event/OrderPizza';
+import OrderSaved from './event/OrderSaved';
+import NotifyCustomerHandler from './handler/NotifyCustomerHandler';
+import SaveOrderHandler from './handler/SaveOrderHandler';
+import SendInvoiceHandler from './handler/SendInvoiceHandler';
 import Context from '../Context';
 import IEvent from '../IEvent';
 import EventDispatcherResponse from '../EventDispatcherResponse';
 import IEventHandler from '../IEventHandler';
-import InvalidOrder from './Event/InvalidOrder';
-import InvalidOrderHandler from './Handler/InvalidOrderHandler';
+import InvalidOrder from './event/InvalidOrder';
+import InvalidOrderHandler from './handler/InvalidOrderHandler';
 
 class PizzaDispatcher extends EventDispatcher {}
 
