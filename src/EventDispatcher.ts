@@ -6,33 +6,28 @@ import IEventHandlerMap from './IEventHandlerMap';
 import Reflection from './Reflection';
 import IEventDispatcherOptions from './IEventDispatcherOptions';
 
-const reflection = new Reflection();
-
 export class EventDispatcher {
-  constructor(private eventHandlerMaps: IEventHandlerMap[], private options: IEventDispatcherOptions = {}) {}
+  constructor(
+    private eventHandlerMaps: IEventHandlerMap[],
+    private options: IEventDispatcherOptions = {},
+    private reflection: Reflection = new Reflection(),
+  ) {}
 
   public async dispatch(event: IEvent, responseClass: typeof EventDispatcherResponse = EventDispatcherResponse) {
     const response = new responseClass();
 
-    const eventMap = this.findEventMap(event);
+    for (const handler of this.getEventHandlers(event)) {
+      try {
+        const handlerResponse = (response[this.reflection.getClassName(handler)] = await handler.handle(
+          event,
+          this.getContext(),
+        ));
 
-    if (!eventMap) {
-      return response;
-    }
+        this.onHandlerSuccess(event, handler, handlerResponse);
+      } catch (error) {
+        this.onHandlerError(event, handler, error);
 
-    for (const key in eventMap.handlers) {
-      const handler = eventMap.handlers[key];
-
-      if (handler) {
-        try {
-          response[reflection.getClassName(handler)] = await this.handle(event, handler);
-
-          this.onHandlerSuccess(event, handler, response[reflection.getClassName(handler)]);
-        } catch (error) {
-          this.onHandlerError(event, handler, error);
-
-          throw new error();
-        }
+        throw new error();
       }
     }
 
@@ -42,33 +37,30 @@ export class EventDispatcher {
   }
 
   private onDispatchSuccess(event: IEvent, response: EventDispatcherResponse): void {
-    reflection.isFunction(this.options.onDispatchSuccess) && this.options.onDispatchSuccess(event, response);
+    this.reflection.isFunction(this.options.onDispatchSuccess) && this.options.onDispatchSuccess(event, response);
   }
 
   private onHandlerError(event: IEvent, handler: IEventHandler, error: object): void {
-    reflection.isFunction(this.options.onHandlerError) && this.options.onHandlerError(event, handler, error);
+    this.reflection.isFunction(this.options.onHandlerError) && this.options.onHandlerError(event, handler, error);
   }
 
   private onHandlerSuccess(event: IEvent, handler: IEventHandler, handlerResponse: any): void {
-    reflection.isFunction(this.options.onHandlerSuccess) &&
+    this.reflection.isFunction(this.options.onHandlerSuccess) &&
       this.options.onHandlerSuccess(event, handler, handlerResponse);
   }
 
-  private handle = (event: IEvent, handler: IEventHandler) => {
-    return handler.handle(event, this.getContext());
-  };
-
   private getContext(): Context {
-    const context = reflection.isFunction(this.options.context) ? this.options.context() : new Context();
-    return context.setDispatcher(this);
+    return (this.reflection.isFunction(this.options.context) ? this.options.context() : new Context()).setDispatcher(
+      this,
+    );
   }
 
-  private getMaps() {
-    return this.eventHandlerMaps;
+  private getEventHandlers(event: IEvent) {
+    return this.findEventMap(event)?.handlers || [];
   }
 
   private findEventMap(event: IEvent) {
-    return this.getMaps().filter((map) => reflection.hasSameClassName(map.event, event))[0] || null;
+    return this.eventHandlerMaps.filter((map) => this.reflection.hasSameClassName(map.event, event))[0] || null;
   }
 }
 
