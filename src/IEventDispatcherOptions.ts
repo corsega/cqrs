@@ -1,11 +1,9 @@
-import Context from './Context';
-import IEvent from './IEvent';
-import EventDispatcherResponse from './EventDispatcherResponse';
-import IEventHandler from './IEventHandler';
+import IContext from './IContext';
+import IEventDispatcherRequest from './IEventDispatcherRequest';
+import IReflection from './IReflection';
 
 export default interface IEventDispatcherOptions {
-  context?: () => Context;
-  onDispatchSuccess?: (event: IEvent, response: EventDispatcherResponse) => void;
-  onHandlerError?: (event: IEvent, handler: IEventHandler, error: object) => void;
-  onHandlerSuccess?: (event: IEvent, handler: IEventHandler, handlerResponse: any) => void;
+  context: IContext;
+  reflection: IReflection;
+  request: IEventDispatcherRequest;
 }

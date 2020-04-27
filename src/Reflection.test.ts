@@ -17,6 +17,12 @@ describe('Reflection', () => {
     expect(name).toBe('Pizza');
   });
 
+  it('Returns null when no class name is found', () => {
+    const name = reflection.getClassName({});
+
+    expect(name).toBeNull();
+  });
+
   it('Gets an instance class name via getFullyQualifiedName()', () => {
     const name = reflection.getClassName(
       new VeggiePizza({

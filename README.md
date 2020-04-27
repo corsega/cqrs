@@ -1,6 +1,11 @@
 
 ## TypeScript Class-Style Event Dispatcher
 
+![coverage:branches](coverage/badge-branches.svg)
+![coverage:functions](coverage/badge-functions.svg)
+![coverage:lines](coverage/badge-lines.svg)
+![coverage:statements](coverage/badge-statements.svg)
+
 Define any class as an event.
 
 ```ts
