@@ -14,8 +14,8 @@ export class EventDispatcher {
     private options: IEventDispatcherOptions = new EventDispatcherOptions(),
   ) {}
 
-  public async dispatch(event: IEvent, responseClass: typeof EventDispatcherResponse = EventDispatcherResponse) {
-    const response = new responseClass();
+  public async dispatch(event: IEvent, responseClass: typeof EventDispatcherResponse = EventDispatcherResponse): Promise<EventDispatcherResponse> {
+    const response: EventDispatcherResponse  = new responseClass();
 
     for (const handler of this.getEventHandlers(event)) {
       try {

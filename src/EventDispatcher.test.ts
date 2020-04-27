@@ -63,12 +63,12 @@ describe('EventDispatcher', () => {
   });
 
   it('Uses custom response', async () => {
-    const response = (await pizzaDispatcher.dispatch(
-      new OrderPizza({
-        ingredients: ['pepperoni', 'tomatoes'],
-      }),
-      OrderPizzaResponse,
-    )) as OrderPizzaResponse;
+
+    const event = new OrderPizza({
+      ingredients: ['pepperoni', 'tomatoes'],
+    });
+
+    const response = await pizzaDispatcher.dispatch(event, OrderPizzaResponse);
 
     expect(response).toBeInstanceOf(OrderPizzaResponse);
 
